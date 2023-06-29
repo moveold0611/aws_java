@@ -9,6 +9,8 @@ public class Product {
 //		System.out.println("상품 객체 생성");
 //	}
 	
+	
+	
 	public Product(String model, int price) {
 		this.model = model;
 		this.price = price;
