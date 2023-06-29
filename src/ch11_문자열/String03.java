@@ -20,7 +20,7 @@ public class String03 {
 					tempArray1[j] = addressArray2[j];					
 				}
 				tempArray1[addressArray2.length] = addressArray[i];	
-				addressArray2 = tempArray1;
+				addressArray2 = tempArray1;	
 			}else if(addressArray[i].contains("창원시")) { // 2, 3
 				String[] tempArray2 = new String[addressArray3.length + 1];
 				for(int j = 0; j < addressArray3.length; j++) {
