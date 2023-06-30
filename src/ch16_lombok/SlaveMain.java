@@ -9,6 +9,8 @@ public class SlaveMain {
 
 		System.out.println(slave.getAge());
 		System.out.println(slave.equals(slave2));
+		
+		
 	}
 
 }
