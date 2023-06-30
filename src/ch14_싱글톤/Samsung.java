@@ -1,11 +1,23 @@
 package ch14_싱글톤;
 
+import java.time.LocalDate;
+import java.util.Date;
+
 public class Samsung {
-	private String companyName;
-	private int autoIncrementSerialNumber;
+	private static Samsung instance;	// 1. 스태틱 instance 만들기
 	
-	public Samsung() {
-		companyName = "SAMSUNG";
+	private String companyName;
+	private int autoIncrementSerialNumber = LocalDate.now().getYear() * 10000; 
+	
+	public static Samsung getInstance() { // 2. instance를 받을 메소드 만들기
+		if(instance == null) {
+			instance = new Samsung();
+		}
+		return instance;
+	}
+	
+	private Samsung() {
+		companyName = "SAMSUNG"; // 3. 스태틱을 private으로 메소드 생성
 	}
 	
 	public int getAutoIncrementSerialNumber() {

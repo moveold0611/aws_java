@@ -1,5 +1,6 @@
 package ch13_스태틱;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 
 import ch10_배열.Array01;
@@ -16,7 +17,7 @@ public class MessageUtilMain {
 //		messageUtil.sendMail();
 //		messageUtil.sendFile();
 		
-		MessageUtil.sendFile(); // 스태틱 메소드는 생성을 생략 가능
+		MessageUtil.sendFile(); // 스태틱 메소드는 생성을 생략 가능    스태틱.메소드();
 
 		MessageUtil.data = "안녕";
 		System.out.println(MessageUtil.data);
@@ -28,6 +29,12 @@ public class MessageUtilMain {
 		System.out.println(messageUtilMain.a); // 스태틱에 변수를 사용하기 위해서는 반드시 생성 필요
 		
 //		Array01.main(null);     다른 패키지 클래스 호출
+		
+			
+		
+		
 	}
+	
+	
 
 }
