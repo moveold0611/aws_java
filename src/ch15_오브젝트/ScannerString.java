@@ -29,7 +29,7 @@ public class ScannerString {
 		
 		System.out.println("로그인 성공");
 		
-
+		scanner.close();
 	}
 
 }
