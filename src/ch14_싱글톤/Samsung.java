@@ -1,7 +1,6 @@
 package ch14_싱글톤;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 public class Samsung {
 	private static Samsung instance;	// 1. 스태틱 instance 만들기

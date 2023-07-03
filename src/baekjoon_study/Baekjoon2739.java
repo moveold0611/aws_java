@@ -16,7 +16,7 @@ public class Baekjoon2739 {
 		for(int i = 0; i < 9; i++) {
 			System.out.println(a + " * " + i + " = " + a * (i + 1));			
 		}
-
+		sc.close();
 		bw.flush();
 		bw.close();
 	}

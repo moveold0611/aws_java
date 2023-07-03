@@ -5,6 +5,7 @@ import java.util.Arrays;
 
 import ch10_배열.Array01;
 
+@SuppressWarnings("unused")
 public class MessageUtilMain {
 	
 	private int a;

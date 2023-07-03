@@ -15,7 +15,8 @@ public class FactoryMain {
 		factory1.produce("갤럭시s").showInfo();;
 		factory2.produce("갤럭시s2").showInfo();
 		factory1.produce("갤럭시s3").showInfo();
-
 	}
 
+	
+	
 }
