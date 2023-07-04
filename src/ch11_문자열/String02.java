@@ -8,6 +8,7 @@ public class String02 {
 		int index = phone.indexOf("-"); // 앞에서부터 색인
 		int lastindex = phone.lastIndexOf("-"); //뒤에서부터 색인
 		
+
 		System.out.println(index);
 		
 		String midNumber = phone.substring(index + 1, lastindex);

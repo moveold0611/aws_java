@@ -3,10 +3,10 @@ package ch18_빌더;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+
 
 @AllArgsConstructor
-@NoArgsConstructor
+
 @Data
 @Builder
 public class KoreaUser {	
@@ -21,11 +21,11 @@ public class KoreaUser {
 	
 	// @Builer 만들시 생성되는 코드
 	
-//	public static KoreaUserBuilder builder() {
-//		return new KoreaUserBuilder();		
-//	}
-//					
-//	public static class KoreaUserBuilder { // 클래스 안에 클래스 생성
+	public static KoreaUserBuilder builder() {
+		return new KoreaUserBuilder();	
+	}
+					
+	public static class KoreaUserBuilder { // 클래스 안에 클래스 생성
 //		private int userId;
 //		private String username;
 //		private String password;
@@ -60,7 +60,7 @@ public class KoreaUser {
 //				this.email = email;
 //				return this;
 //			}
-//	}
+	}
 	
 	
 	
