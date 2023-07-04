@@ -1,15 +1,16 @@
 package baekjoon_study;
 
-//import java.io.BufferedWriter;
+import java.io.BufferedWriter;
+
 import java.io.IOException;
-//import java.io.OutputStreamWriter;
+import java.io.OutputStreamWriter;
 import java.util.Scanner;
 
 
 public class Baekjoon10871 {
 
 	public static void main(String[] args) throws IOException {
-//		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 		Scanner sc = new Scanner(System.in);
 		
 		int n, a, x;
@@ -17,18 +18,18 @@ public class Baekjoon10871 {
 		
 		x = sc.nextInt();
 						
-//		bw.write(n);
-//		bw.write(x);	
+		bw.write(n);
+		bw.write(x);	
 		
 		for(int i = 0; i < n; i++) {			
 			a = sc.nextInt();
-//			bw.write(a);			
+			bw.write(a);			
 			if(x > a) {
 				System.out.print(a + " ");
 			}
 		}						
-//		bw.flush();
-//		bw.close();
+		bw.flush();
+		bw.close();
 		
 	}
 
