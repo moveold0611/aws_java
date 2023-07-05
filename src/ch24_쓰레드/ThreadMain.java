@@ -7,9 +7,14 @@ public class ThreadMain {
 			System.out.println("스레드 이름: " + Thread.currentThread().getName());
 			for(int i = 0; i < 50; i++) {
 				System.out.println(i);
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e) {					
+					e.printStackTrace();
+				}
 			}
 		}, "1번 스레드");
-		
+		 
 		
 		Thread thread2 = new Thread(() -> {
 			System.out.println("스레드 이름: " + Thread.currentThread().getName());
