@@ -61,6 +61,7 @@ public class TestFunctionMain {
 		};
 		consumerStr.accept("이동헌");
 		
+		
 		//Type function3
 		BiConsumer<String, Integer> biConsumer = (name, age) -> {
 			System.out.println("매개변수 2개;, 리턴x");

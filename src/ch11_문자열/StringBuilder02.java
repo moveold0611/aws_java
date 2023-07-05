@@ -4,7 +4,7 @@ public class StringBuilder02 {
 	public static void main(String[] args) {
 		// 권한
 		String[] roles = {"ROLE_USER", "ROLE_MANAGER", "ROLE_ADMIN"};
-		
+		System.out.println(roles[1]);
 		String strRoles = "";
 		
 		for(int i = 0; i < roles.length; i++) {
