@@ -55,8 +55,7 @@ public class GUIMain2 extends JFrame {
 		mainCardPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		mainCardPane.setLayout(mainCardLayout);
 		
-		setContentPane(mainCardPane);
-		
+		setContentPane(mainCardPane);	
 		
 		// <<< subPanel1 >>> // 
 		JPanel subPanel1 = new JPanel();
@@ -129,7 +128,6 @@ public class GUIMain2 extends JFrame {
 		});
 		subPanel2ReshowBtn.setBounds(12, 110, 97, 23);
 		subPanel3.add(subPanel2ReshowBtn);
-
 		
 		
 	}

@@ -14,7 +14,7 @@ public class ProductMain {
 		
 		System.out.println(computer2.getType());
 		System.out.println(computer2.getModel());
-		System.out.println();
+		
 		
 		
 		
