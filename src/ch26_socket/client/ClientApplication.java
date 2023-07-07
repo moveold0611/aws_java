@@ -19,11 +19,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.net.BindException;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Scanner;
 
 public class ClientApplication extends JFrame {
-
 	private Socket socket;
 	
 	private JPanel mainPanel;
@@ -39,13 +40,18 @@ public class ClientApplication extends JFrame {
 			public void run() {
 				try {
 					ClientApplication frame = new ClientApplication();
-					frame.setVisible(true);
-				} catch (Exception e) {
+					frame.setVisible(true);					
+				}
+				catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
+		
+		
+		
 	}
+	
 
 	/**
 	 * Create the frame.

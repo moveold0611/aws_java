@@ -1,6 +1,6 @@
 package ch23_예외;
 
-import javax.management.RuntimeErrorException;
+
 
 public class ArrayExceptionThrows {
 
