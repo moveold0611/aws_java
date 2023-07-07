@@ -11,7 +11,7 @@ public class Baekjoon2562 {
 		int count = 0;
 		
 		for(int i = 0; i < 9; i++) {
-			int put = sc.nextInt();			
+			int put = sc.nextInt();
 			if(max < put) {
 				max = put;
 				count = i + 1;
