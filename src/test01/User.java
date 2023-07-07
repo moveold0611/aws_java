@@ -9,6 +9,7 @@ public class User {
 	private	String password;
 	private	String name;
 	private	String email;
+	
 	public String getUsername() {
 		System.out.print("username: ");
 		return username;

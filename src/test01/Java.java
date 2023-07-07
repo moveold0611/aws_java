@@ -2,8 +2,7 @@ package test01;
 
 
 class Java extends Program {
-	
-	private String java;
+
 	
 	
 	@Override

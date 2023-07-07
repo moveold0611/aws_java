@@ -3,7 +3,7 @@ package test01;
 
 class C extends Program{
 	
-	private String c;
+
 	
 	@Override
 	public void develop() {
