@@ -31,7 +31,7 @@ public class ClientApplication extends JFrame {
 	private JTextField ipTextField;
 	private JTextField portTextField;
 	private JTextField messageTextField;
-
+	private JButton messsageSendButton;
 	/**
 	 * Launch the application.
 	 */
@@ -105,6 +105,13 @@ public class ClientApplication extends JFrame {
 				
 				try {
 					socket = new Socket(serverIp, Integer.parseInt(serverPort));
+					JOptionPane.showMessageDialog(
+							mainPanel,
+							"서버와의 연결에 성공하였습니다.",
+							"접속 완료",
+							JOptionPane.PLAIN_MESSAGE);
+					messageTextField.setEditable(true); // 접속 시 채팅창 활성화
+					messsageSendButton.setEnabled(true);	// 접속 시 전송버튼 활성화
 				} catch (NumberFormatException e1) {				
 					e1.printStackTrace();
 				} catch (UnknownHostException e1) {					
@@ -132,12 +139,23 @@ public class ClientApplication extends JFrame {
 		
 		// 메세지 입력 및 전송
 		messageTextField = new JTextField();
+		messageTextField.addKeyListener(
+		new KeyAdapter() {			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					System.out.println("전송");
+				}
+			}
+		});
+		
 		messageTextField.setBounds(12, 419, 326, 63);
 		messageTextField.setEditable(false);
 		mainPanel.add(messageTextField);
 		messageTextField.setColumns(10);
 		
-		JButton messsageSendButton = new JButton("전송");
+		// 전송 버튼
+		messsageSendButton = new JButton("전송");
 		messsageSendButton.setBounds(350, 419, 72, 63);
 		messsageSendButton.setEnabled(false);
 		mainPanel.add(messsageSendButton);

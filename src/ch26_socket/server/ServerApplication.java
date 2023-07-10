@@ -12,13 +12,11 @@ public class ServerApplication {
 	public static ServerSocket serverSocket;
 	public static int port;	
 
-	
 	public static void main(String[] args) {						
 		Thread connectionThread = null;
 		
 		System.out.println("[ 서버 프로그램 실행 ]");
 	
-
 		while(true) {
 			Scanner scanner = new Scanner(System.in);
 			
@@ -26,8 +24,7 @@ public class ServerApplication {
 			System.out.println("1. 서버켜기");
 			System.out.println("2. 서버끄기");
 			System.out.print("선택: ");
-			
-			
+						
 			try {
 				selectedMenu = scanner.nextInt();
 				
@@ -45,14 +42,18 @@ public class ServerApplication {
 					
 					System.out.print("서버의 포트번호를 입력하세요: ");
 					port = scanner.nextInt();					
-					connectionThread = new Thread(() -> {							
+					connectionThread = new Thread(() -> {	// 스레드 생성					
 						try {
-						serverSocket = new ServerSocket(port);						
-							while(!Thread.interrupted()) {								
-								Socket socket = serverSocket.accept();																
+						serverSocket = new ServerSocket(port);	// Socket 생성
+						
+							while(!Thread.interrupted()) {				
+								Socket socket = serverSocket.accept();	 // 서버 접속을 기다리는 명령		
+								ConnectedSocket connectedSocket = new ConnectedSocket(socket); // 접속된 클라이언트를 생성된 connectedSocket에 저장
+								connectedSocket.start(); // 저장된 클라이언트 실행
+								ConnectedClientController.getInstance().getConnectedSockets().add(connectedSocket); // connectedSocket을 List에 담음
 								System.out.println("[[[[[접속]]]]]");
 								System.out.println(socket.getInetAddress().getHostAddress());
-							}
+							}	// 클라이언트를 스레드에 저장하면 다시 반복
 							
 						} catch (BindException e) {
 							System.out.println("이미 사용중인 포트번호입니다.");										
@@ -65,8 +66,7 @@ public class ServerApplication {
 					}, "connectionThread");
 					
 					connectionThread.start();						
-					
-					
+										
 					break;
 				
 				case 2:	
