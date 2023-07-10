@@ -28,8 +28,7 @@ public class SimpleServer {
 					} 
 					
 				}
-			});	
-			
+			});				
 			thread.start();
 			
 		} catch (IOException e) {

@@ -9,10 +9,10 @@ public class Casting {
 				
 		for(int i = 0; i < programs.length; i++) {
 			programs[i].develop();
-			if(i % 2 == 0) {
+			if(programs[i].getClass() == Java.class) {
 				Java java = (Java) programs[i];
 				java.garbageCollection();
-			}else if(i % 2 != 0) {
+			}else if(programs[i].getClass() == C.class) {
 				C c = (C) programs[i];
 				c.defineStructure();
 			}
