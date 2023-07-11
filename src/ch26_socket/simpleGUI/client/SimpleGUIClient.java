@@ -7,11 +7,15 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Objects;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import ch26_socket.simpleGUI.client.dto.RequestBodyDto;
+import ch26_socket.simpleGUI.client.dto.SendMessage;
 import lombok.Getter;
 
 import javax.swing.JScrollPane;
@@ -27,8 +31,11 @@ public class SimpleGUIClient extends JFrame {
 	private JPanel contentPane;
 	private JTextField textField;
 	private JTextArea textArea;
+	private DefaultListModel<String> userListModel;
+	private JList userList;
 	
 	private static SimpleGUIClient instance;
+	private JScrollPane userListScrollPane;
 	public static SimpleGUIClient getInstance() {
 		if(instance == null) {
 			instance = new SimpleGUIClient();
@@ -60,7 +67,7 @@ public class SimpleGUIClient extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	private SimpleGUIClient() {
+	public SimpleGUIClient() {
 		username = JOptionPane.showInputDialog(contentPane, "아이디를 입력하세요");
 		
 		if(Objects.isNull(username)) {
@@ -72,7 +79,6 @@ public class SimpleGUIClient extends JFrame {
 			
 		try {
 			socket = new Socket("127.0.0.1", 8000);
-
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -99,15 +105,14 @@ public class SimpleGUIClient extends JFrame {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-					try {
-						if(e.getKeyCode() == KeyEvent.VK_ENTER);
-						PrintWriter printWriter = new PrintWriter(socket.getOutputStream(), true);
-						printWriter.println(username + ": "+ textField.getText());
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}finally {
-						textField.setText("");
-					}
+					SendMessage sendMessage = SendMessage.builder()
+							.fromUsername(username)
+							.messageBody(textField.getText())
+							.build(); 
+					RequestBodyDto<SendMessage> requestBodyDto =
+							new RequestBodyDto<>("sendMessage", sendMessage);
+					ClientSender.getInstance().send(requestBodyDto);
+					textField.setText("");
 				}
 			}
 		});
@@ -117,13 +122,21 @@ public class SimpleGUIClient extends JFrame {
 		
 		// 출력 창		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(12, 10, 410, 194);
+		scrollPane.setBounds(12, 10, 317, 194);
 		contentPane.add(scrollPane);
 	
 		textArea = new JTextArea();
 		scrollPane.setViewportView(textArea);
 		textArea.setEditable(false);
-//		textArea.
+		
+		userListScrollPane = new JScrollPane();
+		userListScrollPane.setBounds(341, 10, 81, 194);
+		contentPane.add(userListScrollPane);
+		
+		userListModel = new DefaultListModel<>();
+		userList = new JList<>(userListModel);
+		userListScrollPane.setViewportView(userList);
+		userListModel.add(0, "bbb");
 		
 		ClientReceiver clientReceiver = new ClientReceiver();
 		clientReceiver.start();
