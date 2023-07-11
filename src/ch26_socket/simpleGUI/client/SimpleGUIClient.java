@@ -57,6 +57,10 @@ public class SimpleGUIClient extends JFrame {
 					ClientReceiver clientReceiver = new ClientReceiver();
 					clientReceiver.start();
 					
+					RequestBodyDto<String> requestBodyDto = new RequestBodyDto<String>("join", frame.username);
+					ClientSender.getInstance().send(requestBodyDto);
+					
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -79,7 +83,8 @@ public class SimpleGUIClient extends JFrame {
 			
 		try {
 			socket = new Socket("127.0.0.1", 8000);
-			
+
+		
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -135,9 +140,9 @@ public class SimpleGUIClient extends JFrame {
 		
 		userListModel = new DefaultListModel<>();
 		userList = new JList<>(userListModel);
-		userListScrollPane.setViewportView(userList);
-		userListModel.add(0, "bbb");
+		userListScrollPane.setViewportView(userList);		
 		
+	
 		ClientReceiver clientReceiver = new ClientReceiver();
 		clientReceiver.start();
 
