@@ -28,8 +28,7 @@ public class ClientReceiver extends Thread{
 		}
 	}
 	
-	
-	
+
 	
 	private void requestController(String requestBody) {
 		Gson gson = new Gson();
@@ -37,18 +36,22 @@ public class ClientReceiver extends Thread{
 		
 		switch(resource) {
 		
-		case "updateUserList" :
-			List<String> usernameList = (List<String>) gson.fromJson(requestBody, RequestBodyDto.class).getBody();
-			SimpleGUIClient.getInstance().getUserListModel().clear();			
-			SimpleGUIClient.getInstance().getUserListModel().addAll(usernameList);			
-			break;
-			
-			
-		case "showMessage" :
-			String messageContent = (String) gson.fromJson(requestBody, RequestBodyDto.class).getBody();
-			SimpleGUIClient.getInstance().getTextArea().append(messageContent + "\n");
-			break;
+			case "updateRoomList" :
+				List<String> roomList = (List<String>) gson.fromJson(requestBody, RequestBodyDto.class).getBody();
+				SimpleGUIClient.getInstance().getRoomListModel().clear();
+				SimpleGUIClient.getInstance().getRoomListModel().addAll(roomList);
+				break;
+		
+			case "updateUserList" :
+				List<String> usernameList = (List<String>) gson.fromJson(requestBody, RequestBodyDto.class).getBody();
+				SimpleGUIClient.getInstance().getUserListModel().clear();
+				SimpleGUIClient.getInstance().getUserListModel().addAll(usernameList);		
+				break; 				
 				
+			case "showMessage" :
+				String messageContent = (String) gson.fromJson(requestBody, RequestBodyDto.class).getBody();
+				SimpleGUIClient.getInstance().getChattingTextArea().append(messageContent + "\n");
+				break;				
 		}
 	}
 	
