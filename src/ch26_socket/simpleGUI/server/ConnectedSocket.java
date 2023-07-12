@@ -1,5 +1,7 @@
 package ch26_socket.simpleGUI.server;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
 
 
@@ -11,6 +13,12 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JList;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -65,6 +73,9 @@ public class ConnectedSocket extends Thread{
 			case "join" :
 				join(requsetBody);			
 				break;			
+			case "exit" :
+				exit(requsetBody);
+				break;
 		}
 		
 		
@@ -116,8 +127,7 @@ public class ConnectedSocket extends Thread{
 	}
 	
 	private void join(String requestBody) {
-		String roomName = (String) gson.fromJson(requestBody, RequestBodyDto.class).getBody();
-		System.out.println(roomName); //debug		
+		String roomName = (String) gson.fromJson(requestBody, RequestBodyDto.class).getBody();	
 		SimpleGUIServer.roomList.forEach(room -> {
 			if(room.getRoomName().equals(roomName)) {
 				room.getUserList().add(this);
@@ -164,10 +174,21 @@ public class ConnectedSocket extends Thread{
 				});
 			}
 		});
-		
-
-								
 	}
+	
+	
+	private void exit(String requsetBody) {
+		username = (String) gson.fromJson(requsetBody, RequestBodyDto.class).getBody();	
+//		SimpleGUIServer.roomList.
+//		
+//		SimpleGUIServer.roomList.remove(username);
+		
+		
+		
+	}
+	
+	
+	
 	
 }
 
@@ -193,7 +214,7 @@ public class ConnectedSocket extends Thread{
 		 
 	
 	
-	 
+
 	 
 	
 
