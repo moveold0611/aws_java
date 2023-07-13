@@ -1,6 +1,7 @@
 package ch26_socket.simpleGUI.server;
 
 import java.awt.event.MouseAdapter;
+
 import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
 
@@ -23,7 +24,8 @@ import javax.swing.JTextArea;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-
+import ch26_socket.simpleGUI.client.ClientSender;
+import ch26_socket.simpleGUI.client.SimpleGUIClient;
 import ch26_socket.simpleGUI.server.dto.RequestBodyDto;
 import ch26_socket.simpleGUI.server.dto.SendMessage;
 import ch26_socket.simpleGUI.server.entity.Room;
@@ -101,7 +103,6 @@ public class ConnectedSocket extends Thread{
 	
 	private void createRoom(String requestBody) {
 		String roomName = (String) gson.fromJson(requestBody, RequestBodyDto.class).getBody();
-		
 		Room newRoom = Room.builder()
 			.roomName(roomName)
 			.owner(username)
@@ -123,6 +124,8 @@ public class ConnectedSocket extends Thread{
 		
 		SimpleGUIServer.connectedSocketList.forEach(con -> {
 			ServerSender.getInstance().send(con.socket, updateRoomListRequestBodyDto);
+			
+			
 		});
 	}
 	
@@ -149,6 +152,7 @@ public class ConnectedSocket extends Thread{
 						e.printStackTrace();
 					}
 					ServerSender.getInstance().send(connectedSocket.socket, joinMessageDto);
+					
 				});
 				
 			}
@@ -178,13 +182,43 @@ public class ConnectedSocket extends Thread{
 	
 	
 	private void exit(String requsetBody) {
-		username = (String) gson.fromJson(requsetBody, RequestBodyDto.class).getBody();	
+		String roomName = (String) gson.fromJson(requsetBody, RequestBodyDto.class).getBody();	
+		System.out.println(roomName);
 //		SimpleGUIServer.roomList.
-//		
-//		SimpleGUIServer.roomList.remove(username);
 		
+	
 		
+		SimpleGUIServer.roomList.forEach(room -> {
+			if(room.getRoomName().equals(roomName)) {
+				room.getUserList().remove(this);
 		
+				List<String> usernameList = new ArrayList<>();
+				
+				room.getUserList().forEach(con -> {
+					usernameList.add(con.username);
+				});
+	
+		
+				room.getUserList().forEach(connectedSocket -> {
+					
+//					if(room.getUserList().isEmpty()) {
+//						SimpleGUIServer.roomList.remove(room);
+//					}
+					
+					RequestBodyDto<List<String>> updateUserListDto = new RequestBodyDto<List<String>>("updateUserList", usernameList);
+					RequestBodyDto<String> exitMessageDto = new RequestBodyDto<String>("showMessage", username + "님이 나갔습니다.");
+					
+					ServerSender.getInstance().send(connectedSocket.socket, updateUserListDto);
+					try {
+						Thread.sleep(100);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					ServerSender.getInstance().send(connectedSocket.socket, exitMessageDto);			
+				});
+			}
+		});			
+	
 	}
 	
 	

@@ -45,7 +45,7 @@ public class ClientReceiver extends Thread{
 			case "updateUserList" :
 				List<String> usernameList = (List<String>) gson.fromJson(requestBody, RequestBodyDto.class).getBody();
 				SimpleGUIClient.getInstance().getUserListModel().clear();
-				SimpleGUIClient.getInstance().getUserListModel().addAll(usernameList);		
+				SimpleGUIClient.getInstance().getUserListModel().addAll(usernameList);
 				break; 				
 				
 			case "showMessage" :
