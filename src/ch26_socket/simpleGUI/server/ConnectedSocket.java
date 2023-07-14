@@ -103,6 +103,7 @@ public class ConnectedSocket extends Thread{
 	
 	private void createRoom(String requestBody) {
 		String roomName = (String) gson.fromJson(requestBody, RequestBodyDto.class).getBody();
+		username = username + " <방장>";
 		Room newRoom = Room.builder()
 			.roomName(roomName)
 			.owner(username)
@@ -117,16 +118,18 @@ public class ConnectedSocket extends Thread{
 			roomNameList.add(room.getRoomName());
 		});
 		
-		System.out.println(newRoom.getOwner()); // debug
+		RequestBodyDto<String> removeTextArea =
+				new RequestBodyDto<String>("removeTextArea", "");
+		ServerSender.getInstance().send(this.socket, removeTextArea);
+		
+		
 		
 		RequestBodyDto<List<String>> updateRoomListRequestBodyDto = 
 				new RequestBodyDto<List<String>>("updateRoomList", roomNameList);
 		
 		SimpleGUIServer.connectedSocketList.forEach(con -> {
-			ServerSender.getInstance().send(con.socket, updateRoomListRequestBodyDto);
-			
-			
-		});
+			ServerSender.getInstance().send(con.socket, updateRoomListRequestBodyDto);	
+		});		
 	}
 	
 	private void join(String requestBody) {
@@ -137,6 +140,10 @@ public class ConnectedSocket extends Thread{
 				
 				List<String> usernameList = new ArrayList<>();
 				
+				RequestBodyDto<String> removeTextArea =
+						new RequestBodyDto<String>("removeTextArea", "");
+				ServerSender.getInstance().send(this.socket, removeTextArea);
+				
 				room.getUserList().forEach(con -> {
 					usernameList.add(con.username);
 				});
@@ -145,14 +152,13 @@ public class ConnectedSocket extends Thread{
 					RequestBodyDto<List<String>> updateUserListDto = new RequestBodyDto<List<String>>("updateUserList", usernameList);
 					RequestBodyDto<String> joinMessageDto = new RequestBodyDto<String>("showMessage", username + "님이 들어왔습니다.");
 					
-					ServerSender.getInstance().send(connectedSocket.socket, updateUserListDto);
+					ServerSender.getInstance().send(connectedSocket.socket, joinMessageDto);
 					try {
-						Thread.sleep(100);
+						Thread.sleep(10);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
-					ServerSender.getInstance().send(connectedSocket.socket, joinMessageDto);
-					
+					ServerSender.getInstance().send(connectedSocket.socket, updateUserListDto);
 				});
 				
 			}
@@ -183,15 +189,11 @@ public class ConnectedSocket extends Thread{
 	
 	private void exit(String requsetBody) {
 		String roomName = (String) gson.fromJson(requsetBody, RequestBodyDto.class).getBody();	
-		System.out.println(roomName);
 //		SimpleGUIServer.roomList.
-		
-	
-		
 		SimpleGUIServer.roomList.forEach(room -> {
 			if(room.getRoomName().equals(roomName)) {
 				room.getUserList().remove(this);
-		
+				
 				List<String> usernameList = new ArrayList<>();
 				
 				room.getUserList().forEach(con -> {
@@ -200,28 +202,78 @@ public class ConnectedSocket extends Thread{
 	
 		
 				room.getUserList().forEach(connectedSocket -> {
-					
-//					if(room.getUserList().isEmpty()) {
-//						SimpleGUIServer.roomList.remove(room);
-//					}
-					
-					RequestBodyDto<List<String>> updateUserListDto = new RequestBodyDto<List<String>>("updateUserList", usernameList);
+					RequestBodyDto<List<String>> updateUserListDto = new RequestBodyDto<List<String>>("updateUserList", usernameList);		
 					RequestBodyDto<String> exitMessageDto = new RequestBodyDto<String>("showMessage", username + "님이 나갔습니다.");
 					
 					ServerSender.getInstance().send(connectedSocket.socket, updateUserListDto);
 					try {
-						Thread.sleep(100);
+						Thread.sleep(10);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
-					ServerSender.getInstance().send(connectedSocket.socket, exitMessageDto);			
+					ServerSender.getInstance().send(connectedSocket.socket, exitMessageDto);
 				});
+				
+				
+				
+				//
+				
+				
+//				if(room.getOwner().contains(username)) {
+//					List<String> roomNameList = new ArrayList<>(); 
+//					SimpleGUIServer.roomList.forEach(roomNameLegacy -> {
+//						if(roomNameLegacy.getRoomName().equals(roomName)) {							
+//						}else {roomNameList.add(roomNameLegacy.getRoomName());}
+//					});
+//					RequestBodyDto<List<String>> updateRoomListRequestBodyDto = 
+//							new RequestBodyDto<List<String>>("updateRoomList", roomNameList);					
+//					SimpleGUIServer.connectedSocketList.forEach(con -> {
+//						ServerSender.getInstance().send(con.socket, updateRoomListRequestBodyDto);
+//					});
+//					
+//				}
+				
+				
+				if(usernameList.isEmpty()) {
+					System.out.println("방 삭제 작동");
+					
+					List<String> roomNameList = new ArrayList<>();
+					
+					SimpleGUIServer.roomList.forEach(roomList -> {
+						roomNameList.add(roomList.getRoomName());
+						roomNameList.remove(roomName);
+					});		
+					
+					RequestBodyDto<String> removeEmptyRoom =
+							new RequestBodyDto<String> ("removeRoom", roomName);
+							
+					SimpleGUIServer.connectedSocketList.forEach( con -> {
+						ServerSender.getInstance().send(con.socket, removeEmptyRoom);
+					});
+										
+					RequestBodyDto<List<String>> updateRoomListRequestBodyDto = 
+							new RequestBodyDto<List<String>>("updateRoomList", roomNameList);					
+					SimpleGUIServer.connectedSocketList.forEach(con -> {
+						ServerSender.getInstance().send(con.socket, updateRoomListRequestBodyDto); 						
+					});
+				}
+				
 			}
-		});			
+		});	
+		//
 	
 	}
 	
-	
+	/*    메세지 창 초기화
+	RequestBodyDto<String> removeTextArea =
+			new RequestBodyDto<String>("removeTextArea", "");
+	try {
+		Thread.sleep(10);
+	} catch (InterruptedException e) {
+		e.printStackTrace();
+	}
+	ServerSender.getInstance().send(connectedSocket.socket, removeTextArea);
+	*/
 	
 	
 }
