@@ -32,6 +32,7 @@ import ch26_socket.simpleGUI.server.dto.SendMessage;
 import ch26_socket.simpleGUI.server.entity.Room;
 import lombok.RequiredArgsConstructor;
 
+
 @RequiredArgsConstructor
 public class ConnectedSocket extends Thread{
 	
@@ -278,28 +279,23 @@ public class ConnectedSocket extends Thread{
 //				}
 				
 				
-				if(usernameList.isEmpty()) {
-					System.out.println("방 삭제 작동");
-					
+				// 미완성 방 삭제 조건문
+				if(usernameList.isEmpty()) {		
 					List<String> roomNameList = new ArrayList<>();
-					
-					SimpleGUIServer.roomList.forEach(roomList -> {
-						roomNameList.add(roomList.getRoomName());
-						roomNameList.remove(roomName);
-					});		
-					
-					RequestBodyDto<String> removeEmptyRoom =
-							new RequestBodyDto<String> ("removeRoom", roomName);
-							
-					SimpleGUIServer.connectedSocketList.forEach( con -> {
-						ServerSender.getInstance().send(con.socket, removeEmptyRoom);
+	
+					SimpleGUIServer.roomList.forEach(item -> {
+						roomNameList.add(item.getRoomName());
 					});
-										
+					
+//					Server.roomList.removeIf(item -> item.getRoomName().equals(roomName));
+					roomNameList.removeIf(item -> item.equals(roomName));
+	
+					
 					RequestBodyDto<List<String>> updateRoomListRequestBodyDto = 
 							new RequestBodyDto<List<String>>("updateRoomList", roomNameList);					
 					SimpleGUIServer.connectedSocketList.forEach(con -> {
 						ServerSender.getInstance().send(con.socket, updateRoomListRequestBodyDto); 						
-					});
+					});					
 				}
 				
 			}
