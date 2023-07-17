@@ -2,6 +2,7 @@ package ch26_socket.simpleGUI.client;
 
 import java.awt.CardLayout;
 
+
 import java.awt.EventQueue;
 
 import java.io.IOException;
@@ -31,16 +32,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.SwingConstants;
-
-/*
- * 필요한 추가 기능
- * 1. 채팅방 나가기 (완료)
- * 2. 채팅방 목록에서 자신의 아이디 표시 (완료)
- * 3. 채팅방 안에서 채팅방 제목 표시 (완료)
- * 4. 방을 만든사람을 (방장)으로 표시 (완료)
- * 5. 방장이 나가면 방 폭파 or 방장 인계
- * 6. JLable 활용하여 접속인원 더블클릭시 입력칸에 이름 들어가게 하고 귓속말 기능 활성화/ 아닐때는 전체, 보낸후 전체로 복귀
- */
 
 
 @Getter
@@ -176,17 +167,12 @@ public class SimpleGUIClient extends JFrame {
 				RequestBodyDto<String> requestBodyDto = new RequestBodyDto<String>("createRoom", roomName);
 				ClientSender.getInstance().send(requestBodyDto);
 				mainCardLayout.show(mainCardPanel, "chattingRoomPanel");
-				
-				
-				
-				
-								
-	
-				
+
 				requestBodyDto = new RequestBodyDto<String>("join", roomName);
 				ClientSender.getInstance().send(requestBodyDto);								
 			}
 		});
+		
 		chattingRoomListPanel.add(createRoomButton);
 		
 		roomListScrollPanel = new JScrollPane();
@@ -306,12 +292,7 @@ public class SimpleGUIClient extends JFrame {
 			
 		});
 		chattingRoomPanel.add(exitChattingRoomButton);
-		
-		
 
-
-		
-		
 		
 	}
 }

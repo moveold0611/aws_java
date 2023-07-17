@@ -2,6 +2,7 @@ package ch26_socket.simpleGUI.server;
 
 import java.awt.event.MouseAdapter;
 
+
 import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
 
@@ -78,6 +79,9 @@ public class ConnectedSocket extends Thread{
 			case "exit" :
 				exit(requsetBody);
 				break;
+			case "removeRoom" :
+				removeRoom(requsetBody);
+				break;
 		}
 		
 		
@@ -85,6 +89,46 @@ public class ConnectedSocket extends Thread{
 		
 	}
 
+	private void removeRoom(String requestBody) {
+		// 객체
+		String roomName = (String) gson.fromJson(requestBody, RequestBodyDto.class).getBody();
+
+		List<String> roomNameList = new ArrayList<>();
+		SimpleGUIServer.roomList.forEach(item -> {
+			roomNameList.add(item.getRoomName());
+		});
+		
+		// 채팅방에 있던 인원들에게만 전송하는 forEach문
+		SimpleGUIServer.roomList.forEach(room -> {							
+			if(room.getRoomName().equals(roomName)) {		
+				// 방에 남아있는 인원 내보내기				
+				RequestBodyDto<String> exitMessage = new RequestBodyDto<>("exitChattingRoom", "채팅방이 삭제되었습니다.");
+				room.getUserList().forEach(con -> {
+					ServerSender.getInstance().send(con.socket, exitMessage);					
+				});		
+			}
+		});
+		
+		// 서버에서 삭제할 방 객체 골라서 삭제		
+		SimpleGUIServer.roomList.removeIf(room -> room.getRoomName().equals(roomName));
+		
+		// 클라이언트에 표시할 룸리스트 초기화
+		roomNameList.clear();
+		SimpleGUIServer.roomList.forEach(room -> {
+			roomNameList.add(room.getRoomName());
+		});
+		
+		// 클라이언트 룸리스트 업데이트			
+			RequestBodyDto<List<String>> updateRoomListRequestBodyDto = 
+					new RequestBodyDto<List<String>>("updateRoomList", roomNameList);
+			SimpleGUIServer.connectedSocketList.forEach(con -> {
+				ServerSender.getInstance().send(con.socket, updateRoomListRequestBodyDto);
+			});
+			
+	}
+	
+	
+	
 				
 	private void connection(String requestBody) {
 		username = (String) gson.fromJson(requestBody, RequestBodyDto.class).getBody();
