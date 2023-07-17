@@ -1,4 +1,4 @@
-package ch26_socket.simpleGUI.client.dto;
+package client.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

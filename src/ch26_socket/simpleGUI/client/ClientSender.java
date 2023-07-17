@@ -1,4 +1,4 @@
-package ch26_socket.simpleGUI.client;
+package client;
 
 import java.io.IOException;
 
@@ -6,7 +6,7 @@ import java.io.PrintWriter;
 
 import com.google.gson.Gson;
 
-import ch26_socket.simpleGUI.client.dto.RequestBodyDto;
+import client.dto.RequestBodyDto;
 
 public class ClientSender {
 	
@@ -28,7 +28,7 @@ public class ClientSender {
 	public void send(RequestBodyDto<?> requestBodyDto) {
 		try {
 			PrintWriter printWriter = 
-					new PrintWriter(SimpleGUIClient.getInstance().getSocket().getOutputStream(), true);
+					new PrintWriter(Client.getInstance().getSocket().getOutputStream(), true);
 			printWriter.println(gson.toJson(requestBodyDto));
 		} catch (IOException e) {
 			e.printStackTrace();

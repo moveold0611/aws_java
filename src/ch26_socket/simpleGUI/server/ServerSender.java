@@ -1,4 +1,4 @@
-package ch26_socket.simpleGUI.server;
+package server;
 
 import java.io.IOException;
 
@@ -7,7 +7,7 @@ import java.net.Socket;
 
 import com.google.gson.Gson;
 
-import ch26_socket.simpleGUI.server.dto.RequestBodyDto;
+import server.dto.RequestBodyDto;
 
 public class ServerSender {
 	

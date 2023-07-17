@@ -1,10 +1,12 @@
-package ch26_socket.simpleGUI.server.entity;
+package server.entity;
 
 import java.util.List;
 
-import ch26_socket.simpleGUI.server.ConnectedSocket;
+
+
 import lombok.Builder;
 import lombok.Data;
+import server.ConnectedSocket;
 
 @Builder
 @Data

@@ -1,29 +1,33 @@
-package ch26_socket.simpleGUI.client;
+package client;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import com.google.gson.Gson;
 
-import ch26_socket.simpleGUI.client.dto.RequestBodyDto;
+import client.dto.RequestBodyDto;
 
 public class ClientReceiver extends Thread{
 		
 	@Override
 	public void run() {
-		SimpleGUIClient simpleGUIClient = SimpleGUIClient.getInstance();
+		Client simpleGUIClient = Client.getInstance();
 		while(true) {
 			try {
 				BufferedReader bufferedReader = 
 						new BufferedReader(new InputStreamReader(simpleGUIClient.getSocket().getInputStream()));
 				String requestBody = bufferedReader.readLine();
-//				simpleGUIClient.getTextArea().append(requestBody + "\n");
-				requestController(requestBody);
-				
+		
+				requestController(requestBody);				
 			} catch (IOException e) {
-				e.printStackTrace();
+				System.out.println("서버 닫힘");
+				JOptionPane.showMessageDialog(Client.getInstance().getChattingRoomPanel(), "서버 접속 오류");
+				System.exit(0);
+				break;
 			}			
 		}
 	}
@@ -38,35 +42,32 @@ public class ClientReceiver extends Thread{
 		
 			case "updateRoomList" :
 				List<String> roomList = (List<String>) gson.fromJson(requestBody, RequestBodyDto.class).getBody();
-				SimpleGUIClient.getInstance().getRoomListModel().clear();
-				SimpleGUIClient.getInstance().getRoomListModel().addAll(roomList);
+				Client.getInstance().getRoomListModel().clear();
+				Client.getInstance().getRoomListModel().addAll(roomList);
 				break;
 		
 			case "updateUserList" :
 				List<String> usernameList = (List<String>) gson.fromJson(requestBody, RequestBodyDto.class).getBody();
-				SimpleGUIClient.getInstance().getUserListModel().clear();
+				Client.getInstance().getUserListModel().clear();
 				usernameList.set(0, usernameList.get(0) + " <방장>");
-				SimpleGUIClient.getInstance().getUserListModel().addAll(usernameList);
+				Client.getInstance().getUserListModel().addAll(usernameList);				
 				break; 				
 				
 			case "showMessage" :
 				String messageContent = (String) gson.fromJson(requestBody, RequestBodyDto.class).getBody();
-				SimpleGUIClient.getInstance().getChattingTextArea().append(messageContent + "\n");
+				Client.getInstance().getChattingTextArea().append(messageContent + "\n");
 				break;			
 				
 			case "removeTextArea" :
 				String removeTextArea = (String) gson.fromJson(requestBody, RequestBodyDto.class).getBody();
-				SimpleGUIClient.getInstance().getChattingTextArea().setText("");
+				Client.getInstance().getChattingTextArea().setText("");
 				break;
 				
-			case "removeRoom" :
-				System.out.println("룸리스트 삭제");
-				String roomName = (String) gson.fromJson(requestBody, RequestBodyDto.class).getBody();
-				SimpleGUIClient.getInstance().getRoomList().remove(
-						SimpleGUIClient.getInstance().getRoomListModel().indexOf(roomName));
+			case "exitChattingRoom" : // 서버에서 명령을 받아 클라이언트를 채팅방에서 내보내는 스위치
+				String receiveExitMessage = (String) gson.fromJson(requestBody, RequestBodyDto.class).getBody();
+				JOptionPane.showMessageDialog(Client.getInstance().getChattingRoomListPanel(), receiveExitMessage);
+				Client.getInstance().getMainCardLayout().show(Client.getInstance().getMainCardPanel(), "chattingRoomListPanel");
 				break;
-				
-
 		}
 	}
 	
