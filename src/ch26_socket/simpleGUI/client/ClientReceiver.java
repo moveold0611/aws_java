@@ -51,21 +51,7 @@ public class ClientReceiver extends Thread{
 			case "showMessage" :
 				String messageContent = (String) gson.fromJson(requestBody, RequestBodyDto.class).getBody();
 				SimpleGUIClient.getInstance().getChattingTextArea().append(messageContent + "\n");
-				break;			
-				
-			case "removeTextArea" :
-				String removeTextArea = (String) gson.fromJson(requestBody, RequestBodyDto.class).getBody();
-				SimpleGUIClient.getInstance().getChattingTextArea().setText("");
-				break;
-				
-			case "removeRoom" :
-				System.out.println("룸리스트 삭제");
-				String roomName = (String) gson.fromJson(requestBody, RequestBodyDto.class).getBody();
-				SimpleGUIClient.getInstance().getRoomList().remove(
-						SimpleGUIClient.getInstance().getRoomListModel().indexOf(roomName));
-				break;
-				
-
+				break;				
 		}
 	}
 	
