@@ -1,8 +1,8 @@
-package baekjoon_study;
+package ch00_백준;
 
 import java.util.Scanner;
 
-public class baekjoon10952 {
+public class Baekjoon10952 {
 
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);

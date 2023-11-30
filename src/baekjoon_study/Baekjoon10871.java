@@ -1,4 +1,4 @@
-package baekjoon_study;
+package ch00_백준;
 
 import java.io.BufferedWriter;
 
