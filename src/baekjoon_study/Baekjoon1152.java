@@ -1,4 +1,4 @@
-package baekjoon_study;
+package ch00_백준;
 
 import java.util.ArrayList;
 import java.util.Scanner;

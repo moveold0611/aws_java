@@ -1,8 +1,8 @@
-package baekjoon_study;
+package ch00_백준;
 
 import java.util.Scanner;
 
-public class baekjoon2480 {
+public class Baekjoon2480 {
 
 	// 입력 3 3 6, 2 2 2, 6 2 5
 	
